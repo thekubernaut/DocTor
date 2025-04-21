@@ -1,6 +1,6 @@
 # AI Documentation Checker
 
-A smart tool that automatically checks and updates your project's documentation when code changes are made. It works with GitHub and uses a local AI model (Ollama) by default, with OpenAI as an optional alternative.
+A smart tool that automatically checks and updates your project's documentation when code changes are made. It works with GitHub and uses a local AI model (Ollama) to analyze and update documentation.
 
 ## Architecture
 
@@ -10,17 +10,10 @@ graph TD
     B -->|Trigger| C[Documentation Checker]
     C -->|Read| D[Documentation Files]
     C -->|Get| E[Code Changes]
-    C -->|Analyze| F[AI Backend]
-    F -->|Ollama| H[Local Ollama Service]
-    F -->|OpenAI| G[OpenAI API]
+    C -->|Analyze| F[Ollama Service]
     F -->|Return Analysis| C
     C -->|Create| I[Documentation PR]
     I -->|Update| A
-
-    subgraph AI Backend Options
-        H
-        G
-    end
 ```
 
 ## What This Tool Does
@@ -29,7 +22,7 @@ graph TD
 2. The tool automatically:
    - Checks what code has changed
    - Looks at your documentation (like README.md and files in the docs folder)
-   - Uses AI to see if the documentation needs updates
+   - Uses Ollama to see if the documentation needs updates
    - If updates are needed, it creates a new pull request with the changes
    - If everything is up to date, it does nothing
 
@@ -41,11 +34,8 @@ graph TD
 2. Copy the `doc-checker.yml` file into the `.github/workflows` folder
 3. Copy the `doc-checker.py` and `requirements.txt` files to the root of your repository
 
-### Step 2: Choose Your AI Provider
+### Step 2: Set Up Ollama
 
-The tool uses Ollama by default, but you can optionally use OpenAI instead:
-
-#### Option A: Using Ollama (Default, Free, runs on your computer)
 1. Install Ollama:
    - For Mac: Open Terminal and run:
      ```bash
@@ -65,19 +55,8 @@ The tool uses Ollama by default, but you can optionally use OpenAI instead:
 4. In your GitHub repository:
    - Go to Settings → Secrets and variables → Actions
    - Add these secrets (optional, as these are the defaults):
-     - Name: `LLM_BACKEND`, Value: `ollama`
      - Name: `LLM_MODEL`, Value: `llama2` (or your chosen model)
      - Name: `OLLAMA_HOST`, Value: `http://localhost:11434`
-
-#### Option B: Using OpenAI (Alternative, requires an API key)
-1. Go to [OpenAI's website](https://platform.openai.com/)
-2. Create an account and get an API key
-3. In your GitHub repository:
-   - Go to Settings → Secrets and variables → Actions
-   - Add these secrets:
-     - Name: `LLM_BACKEND`, Value: `openai`
-     - Name: `LLM_MODEL`, Value: `gpt-4` (or your preferred model)
-     - Name: `OPENAI_API_KEY`, Value: Your OpenAI API key
 
 ### Step 3: Set Up Your Documentation
 
@@ -127,14 +106,12 @@ You can change these settings by editing the files:
 
 1. Check the [GitHub Actions documentation](https://docs.github.com/en/actions)
 2. Visit [Ollama's website](https://ollama.com/) for Ollama help
-3. Check [OpenAI's documentation](https://platform.openai.com/docs) for API help
 
 ## Requirements
 
 - A GitHub repository
 - Python 3.11 or newer
-- Ollama installed and running (default)
-- Optional: OpenAI API key (if using OpenAI instead of Ollama)
+- Ollama installed and running
 
 ## License
 
