@@ -2,6 +2,27 @@
 
 A smart tool that automatically checks and updates your project's documentation when code changes are made. It works with GitHub and can use either OpenAI's AI or a local AI model (Ollama).
 
+## Architecture
+
+```mermaid
+graph TD
+    A[GitHub Repository] -->|Pull Request Created| B[GitHub Actions]
+    B -->|Trigger| C[Documentation Checker]
+    C -->|Read| D[Documentation Files]
+    C -->|Get| E[Code Changes]
+    C -->|Analyze| F[AI Backend]
+    F -->|OpenAI| G[OpenAI API]
+    F -->|Ollama| H[Local Ollama Service]
+    F -->|Return Analysis| C
+    C -->|Create| I[Documentation PR]
+    I -->|Update| A
+
+    subgraph AI Backend Options
+        G
+        H
+    end
+```
+
 ## What This Tool Does
 
 1. When someone creates or updates a pull request in your GitHub repository
