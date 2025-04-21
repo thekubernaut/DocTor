@@ -1,6 +1,6 @@
 # AI Documentation Checker
 
-A smart tool that automatically checks and updates your project's documentation when code changes are made. It works with GitHub and can use either OpenAI's AI or a local AI model (Ollama).
+A smart tool that automatically checks and updates your project's documentation when code changes are made. It works with GitHub and uses a local AI model (Ollama) by default, with OpenAI as an optional alternative.
 
 ## Architecture
 
@@ -11,15 +11,15 @@ graph TD
     C -->|Read| D[Documentation Files]
     C -->|Get| E[Code Changes]
     C -->|Analyze| F[AI Backend]
-    F -->|OpenAI| G[OpenAI API]
     F -->|Ollama| H[Local Ollama Service]
+    F -->|OpenAI| G[OpenAI API]
     F -->|Return Analysis| C
     C -->|Create| I[Documentation PR]
     I -->|Update| A
 
     subgraph AI Backend Options
-        G
         H
+        G
     end
 ```
 
@@ -43,19 +43,9 @@ graph TD
 
 ### Step 2: Choose Your AI Provider
 
-You have two options:
+The tool uses Ollama by default, but you can optionally use OpenAI instead:
 
-#### Option A: Using OpenAI (Easier, but requires an API key)
-1. Go to [OpenAI's website](https://platform.openai.com/)
-2. Create an account and get an API key
-3. In your GitHub repository:
-   - Go to Settings → Secrets and variables → Actions
-   - Click "New repository secret"
-   - Name: `OPENAI_API_KEY`
-   - Value: Your OpenAI API key
-   - Click "Add secret"
-
-#### Option B: Using Ollama (Free, runs on your computer)
+#### Option A: Using Ollama (Default, Free, runs on your computer)
 1. Install Ollama:
    - For Mac: Open Terminal and run:
      ```bash
@@ -74,10 +64,20 @@ You have two options:
 
 4. In your GitHub repository:
    - Go to Settings → Secrets and variables → Actions
-   - Add these secrets:
+   - Add these secrets (optional, as these are the defaults):
      - Name: `LLM_BACKEND`, Value: `ollama`
      - Name: `LLM_MODEL`, Value: `llama2` (or your chosen model)
      - Name: `OLLAMA_HOST`, Value: `http://localhost:11434`
+
+#### Option B: Using OpenAI (Alternative, requires an API key)
+1. Go to [OpenAI's website](https://platform.openai.com/)
+2. Create an account and get an API key
+3. In your GitHub repository:
+   - Go to Settings → Secrets and variables → Actions
+   - Add these secrets:
+     - Name: `LLM_BACKEND`, Value: `openai`
+     - Name: `LLM_MODEL`, Value: `gpt-4` (or your preferred model)
+     - Name: `OPENAI_API_KEY`, Value: Your OpenAI API key
 
 ### Step 3: Set Up Your Documentation
 
@@ -133,9 +133,8 @@ You can change these settings by editing the files:
 
 - A GitHub repository
 - Python 3.11 or newer
-- Either:
-  - An OpenAI API key (if using OpenAI)
-  - Ollama installed and running (if using Ollama)
+- Ollama installed and running (default)
+- Optional: OpenAI API key (if using OpenAI instead of Ollama)
 
 ## License
 

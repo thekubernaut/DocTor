@@ -13,8 +13,8 @@ import json
 
 # Configuration
 DOC_PATHS = ["docs/", "README.md"]  # Add more documentation paths as needed
-LLM_BACKEND = os.getenv('LLM_BACKEND', 'openai')  # 'openai' or 'ollama'
-MODEL = os.getenv('LLM_MODEL', 'gpt-4')  # For OpenAI: 'gpt-4', for Ollama: e.g., 'llama2', 'mistral', etc.
+LLM_BACKEND = os.getenv('LLM_BACKEND', 'ollama')  # 'ollama' (default) or 'openai'
+MODEL = os.getenv('LLM_MODEL', 'llama2')  # For Ollama: 'llama2', 'mistral', etc. For OpenAI: 'gpt-4'
 OLLAMA_HOST = os.getenv('OLLAMA_HOST', 'http://localhost:11434')
 
 def get_pull_request_info() -> Dict:
